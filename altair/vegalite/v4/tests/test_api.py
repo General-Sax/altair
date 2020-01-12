@@ -238,7 +238,7 @@ def test_save(format, basic_chart):
         out = io.BytesIO()
         mode = 'rb'
     fid, filename = tempfile.mkstemp(suffix='.' + format)
-
+    os.close(fid)
     try:
         try:
             basic_chart.save(out, format=format)
@@ -518,7 +518,7 @@ def test_filter_transform_selection_predicates():
     assert chart.to_dict()['transform'] == [{'filter': {'selection': {'or': [{'not': 's1'}, {'not': 's2'}]}}}]
 
     chart = base.transform_filter(~(selector1 & selector2))
-    assert chart.to_dict()['transform'] == [{'filter': {'selection': {'not': {'and': ['s1', 's2']}}}}]        
+    assert chart.to_dict()['transform'] == [{'filter': {'selection': {'not': {'and': ['s1', 's2']}}}}]
 
 
 
@@ -746,7 +746,7 @@ def test_data_property():
 
     assert chart1.to_dict() == chart2.to_dict()
 
-    
+
 @pytest.mark.parametrize('method', ['layer', 'hconcat', 'vconcat', 'concat'])
 @pytest.mark.parametrize('data', ['data.json', pd.DataFrame({'x': range(3), 'y': list('abc')})])
 def test_subcharts_with_same_data(method, data):

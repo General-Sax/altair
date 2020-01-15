@@ -240,7 +240,7 @@ def test_save(format, basic_chart):
     
     fid, filename = tempfile.mkstemp(suffix='.' + format)
     os.close(fid)
-    
+
     try:
         try:
             basic_chart.save(out, format=format)
